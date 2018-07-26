@@ -10,6 +10,7 @@ import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.Response;
 
+import com.amazon.ask.response.ResponseBuilder;
 import pantrytracker.model.AlexaOutput;
 import pantrytracker.model.Attributes;
 import pantrytracker.model.Constants;
@@ -25,9 +26,13 @@ public class YesIntentHandler implements RequestHandler {
 	@Override
 	public Optional<Response> handle(HandlerInput input) {
 		Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
-		sessionAttributes.put(Attributes.STATE_KEY, Attributes.HOW_MANY_STATE);
-
-		return AlexaOutput.createDefault(Constants.HOW_MANY_MESSAGE).getOutput(input);
+		if(sessionAttributes.get(Attributes.STATE_KEY) == Attributes.ORDER_MORE_STATE) {
+			String food = (String) sessionAttributes.get(Attributes.ITEM_KEY);
+			return input.getResponseBuilder().withSpeech("If you are sure you would like to purchase this item please say, Alexa buy " + food).withShouldEndSession(true).build();
+		} else {
+			//TODO: add item to shopping list
+			return null;
+		}
 	}
 
 }

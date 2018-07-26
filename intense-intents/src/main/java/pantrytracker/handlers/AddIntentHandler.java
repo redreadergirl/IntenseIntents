@@ -31,7 +31,7 @@ public class AddIntentHandler implements RequestHandler {
     public Optional<Response> handle(HandlerInput input) {
     	System.out.println("Starting add intent handler");
         String userId = input.getRequestEnvelope().getSession().getUser().getUserId();
-        Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
+
         IntentRequest intentRequest = (IntentRequest)input.getRequestEnvelope().getRequest();
         int amount = 1;
         if(intentRequest.getIntent().getSlots().get("amount").getValue() != null) {

@@ -3,6 +3,7 @@ package pantrytracker.handlers;
 import static com.amazon.ask.request.Predicates.intentName;
 import static com.amazon.ask.request.Predicates.sessionAttribute;
 
+import java.util.Map;
 import java.util.Optional;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
@@ -21,7 +22,13 @@ public class NoIntentHandler implements RequestHandler {
 
 	@Override
 	public Optional<Response> handle(HandlerInput input) {
-		return Handlers.handleQuit(input);
+		Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
+		if(sessionAttributes.get(Attributes.STATE_KEY) == Attributes.ORDER_MORE_STATE) {
+			sessionAttributes.put(Attributes.STATE_KEY, Attributes.SHOPPING_LIST_STATE);
+			return input.getResponseBuilder().withSpeech("Would you like to add it to your shopping list?").withShouldEndSession(false).build();
+		} else {
+			return Handlers.handleQuit(input);
+		}
 	}
 
 }
