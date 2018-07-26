@@ -23,7 +23,7 @@ public class AddIntentHandler implements RequestHandler {
 
     @Override
     public boolean canHandle(HandlerInput input) {
-        return input.matches(intentName("AddIntent").and(sessionAttribute(Attributes.STATE_KEY, Attributes.START_STATE).or(Handlers.noState())));
+        return input.matches(intentName("AddIntent").and(Handlers.noState().or(sessionAttribute(Attributes.STATE_KEY, Attributes.START_STATE))));
 
     }
 
