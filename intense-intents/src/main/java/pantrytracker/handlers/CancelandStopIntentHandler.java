@@ -6,6 +6,8 @@ import com.amazon.ask.model.Response;
 
 import java.util.Optional;
 
+import pantrytracker.util.Handlers;
+
 import static com.amazon.ask.request.Predicates.intentName;
 
 public class CancelandStopIntentHandler implements RequestHandler {
@@ -16,6 +18,8 @@ public class CancelandStopIntentHandler implements RequestHandler {
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
+    	Handlers.handleQuit(input);
+    	
         String speechText = "Goodbye";
         return input.getResponseBuilder()
                 .withSpeech(speechText)
