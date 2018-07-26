@@ -17,7 +17,7 @@ public class HelpIntentHandler implements RequestHandler {
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
-        String speechText = "You can update your inventory and make orders!";
+        String speechText = "You can check and update your inventory of items. For example, add five rolls of paper towels. You can also order more items.";
         return input.getResponseBuilder()
                 .withSpeech(speechText)
                 .withSimpleCard("IntenseIntents", speechText)
