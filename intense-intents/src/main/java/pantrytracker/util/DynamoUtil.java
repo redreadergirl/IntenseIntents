@@ -78,12 +78,12 @@ public class DynamoUtil {
             final Item record = new Item().withPrimaryKey(Constants.PARTITION_KEY, userId).withMap(Constants.INVENTORY_MAP, items);
             dynamoTable.putItem(record);
         } else {
-            Map<String, Integer> items = outcome.getMap(Constants.INVENTORY_MAP);
+            Map<String, BigDecimal> items = outcome.getMap(Constants.INVENTORY_MAP);
 
             // Check to see if the product is already in the list. If so, add to the value.
 
             if (items.containsKey(itemName)) {
-                newCount += items.get(itemName);
+                newCount += ((BigDecimal)items.get(itemName)).intValue();
                 items.put(itemName, (newCount < 0) ? 0 : newCount);
             }
             else {
@@ -112,11 +112,11 @@ public class DynamoUtil {
             return 0;
         }
         else {
-            Map<String, Integer> items = outcome.getMap(Constants.INVENTORY_MAP);
+            Map<String, BigDecimal> items = outcome.getMap(Constants.INVENTORY_MAP);
 
             // Check if user has product
             if (items.containsKey(itemName)) {
-                return items.get(itemName);
+                return ((BigDecimal) items.get(itemName)).intValue();
             }
             else return 0;
         }
