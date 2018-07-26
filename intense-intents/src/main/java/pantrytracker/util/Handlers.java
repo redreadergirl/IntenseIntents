@@ -18,7 +18,7 @@ import pantrytracker.model.Constants;
 public class Handlers {
 	
 	public static Predicate<HandlerInput> noState() {
-		return input -> input.getAttributesManager().getSessionAttributes().containsKey(Attributes.STATE_KEY);
+		return input -> !(input.getAttributesManager().getSessionAttributes().containsKey(Attributes.STATE_KEY));
 	}
 
 	public static Optional<Response> handleQuit(HandlerInput input) {
