@@ -68,16 +68,21 @@ public class DynamoUtil {
 
         final GetItemSpec spec = new GetItemSpec().withPrimaryKey(Constants.PARTITION_KEY, userId);
         final Item outcome = dynamoTable.getItem(spec);
-
+        System.out.println("Data retrieved from table");
+        
         // User did not exist
         if (outcome == null) {
+        	System.out.println("User did not exist");
             createInventoryRow(userId);
+            System.out.println("User created");
             Map<String, Integer> items = new HashMap<String, Integer>();
             items.put(itemName, (num < 0) ? 0 : num);
 
             final Item record = new Item().withPrimaryKey(Constants.PARTITION_KEY, userId).withMap(Constants.INVENTORY_MAP, items);
             dynamoTable.putItem(record);
+            System.out.println("Data inputted");
         } else {
+        	System.out.println("User did exist");
             Map<String, BigDecimal> items = outcome.getMap(Constants.INVENTORY_MAP);
 
             // Check to see if the product is already in the list. If so, add to the value.
@@ -93,6 +98,7 @@ public class DynamoUtil {
 
             final Item record = new Item().withPrimaryKey(Constants.PARTITION_KEY, userId).withMap(Constants.INVENTORY_MAP, items);
             dynamoTable.putItem(record);
+            System.out.println("Data inputted");
         }
 
         return (newCount < 0) ? 0 : newCount;

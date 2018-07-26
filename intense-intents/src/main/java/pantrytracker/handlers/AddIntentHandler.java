@@ -42,6 +42,7 @@ public class AddIntentHandler implements RequestHandler {
         DynamoUtil du = new DynamoUtil();
         System.out.println("Created DynamoUtil");
         du.changeInventory(userId, food, amount);
+        System.out.println("Inventory changed");
         amount = du.getQuantity(userId, food);
         return input.getResponseBuilder().withSpeech("Done. You now have " + amount + " " + food + " in your pantry.").withShouldEndSession(true).build();
     }
