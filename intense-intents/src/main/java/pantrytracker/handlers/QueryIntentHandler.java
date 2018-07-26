@@ -30,7 +30,7 @@ public class QueryIntentHandler implements RequestHandler {
 		Map<String,Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
 		sessionAttributes.put(Attributes.STATE_KEY, Attributes.START_STATE);
 		
-		DynamoUtil ddb = new DynamoUtil("", null); //TODO replace with the correct stuff
+		DynamoUtil ddb = new DynamoUtil();
 		
 		IntentRequest intentRequest = (IntentRequest) input.getRequestEnvelope().getRequest();
 		String item = intentRequest.getIntent().getSlots().get("food").getValue();
