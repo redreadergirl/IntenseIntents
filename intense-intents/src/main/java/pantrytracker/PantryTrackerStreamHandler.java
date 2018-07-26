@@ -13,6 +13,7 @@ public class PantryTrackerStreamHandler extends SkillStreamHandler {
         return Skills.standard()
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 .addRequestHandlers(new LaunchRequestHandler())
                 .addRequestHandlers(new AddIntentHandler())
 =======
@@ -21,6 +22,10 @@ public class PantryTrackerStreamHandler extends SkillStreamHandler {
 =======
                 .addRequestHandlers(new LaunchRequestHandler(), new QueryIntentHandler(), new AddIntentHandler(), new RemoveIntentHandler(), new OrderIntentHandler())
 >>>>>>> cbde3b9... Wrote most of the OrderIntentHandler, some reorganization
+=======
+                .addRequestHandlers(new LaunchRequestHandler(), new QueryIntentHandler(), new AddIntentHandler(), new RemoveIntentHandler(), new OrderIntentHandler(), 
+                					new YesIntentHandler(), new NoIntentHandler())
+>>>>>>> 79d8b4b... Wrote yes and no handlers
                 .build();
     }
   

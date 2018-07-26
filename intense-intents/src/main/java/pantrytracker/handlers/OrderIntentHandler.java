@@ -36,6 +36,7 @@ public class OrderIntentHandler implements RequestHandler {
 		
 		if (amount==null) { //no amount given, so need to ask
 			sessionAttributes.put(Attributes.STATE_KEY, Attributes.HOW_MANY_STATE);
+			sessionAttributes.put(Attributes.ITEM_KEY, item);
 			return AlexaOutput.createDefault(Constants.HOW_MANY_MESSAGE).getOutput(input);
 		}
 		//amount given

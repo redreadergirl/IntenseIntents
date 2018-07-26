@@ -14,6 +14,7 @@ public class Attributes {
 	public static final String HOW_MANY_STATE = "_HOW_MANY";
 	
 	public static final String STATE_KEY = "state";
+	public static final String ITEM_KEY = "item";
 	
 >>>>>>> eaf975a... Added helper stuff
 }
