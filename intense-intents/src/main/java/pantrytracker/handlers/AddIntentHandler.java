@@ -29,6 +29,7 @@ public class AddIntentHandler implements RequestHandler {
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
+    	System.out.println("Starting add intent handler");
         String userId = input.getRequestEnvelope().getSession().getUser().getUserId();
         Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
         IntentRequest intentRequest = (IntentRequest)input.getRequestEnvelope().getRequest();
@@ -37,7 +38,9 @@ public class AddIntentHandler implements RequestHandler {
             amount = Integer.parseInt(intentRequest.getIntent().getSlots().get("amount").getValue());
         }
         String food = intentRequest.getIntent().getSlots().get("food").getValue();
+        System.out.println("Slot values: food is " + food + " and amount is " + amount);
         DynamoUtil du = new DynamoUtil();
+        System.out.println("Created DynamoUtil");
         du.changeInventory(userId, food, amount);
         amount = du.getQuantity(userId, food);
         return input.getResponseBuilder().withSpeech("Done. You now have " + amount + " " + food + " in your pantry.").withShouldEndSession(true).build();
