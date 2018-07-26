@@ -2,9 +2,16 @@ package pantrytracker.util;
 
 import java.math.BigDecimal;
 
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
+//import com.amazonaws.services.dynamodbv2.document.AmazonDynamoDB;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.document.Item;
@@ -17,16 +24,18 @@ import java.util.Map;
 
 import pantrytracker.model.Constants;
 
+@DynamoDBTable(tableName = Constants.DDB_TABLE_NAME)
 public class DynamoUtil {
+
     private final DynamoDB dynamoDB;
     private final Table dynamoTable;
 
     public DynamoUtil() {
         // Uncomment for remote connection
-        //this.dynamoDB = new DynamoDB(AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_WEST_2).build());
-        this.dynamoDB = new DynamoDB(AmazonDynamoDBClientBuilder.standard().withEndpointConfiguration
-                (new AwsClientBuilder.EndpointConfiguration("http://localhost:8000", "us-west-2")).build());
-        
+
+        this.dynamoDB = new DynamoDB(AmazonDynamoDBClientBuilder.standard()
+                .withRegion(Regions.US_EAST_1).build());
+
         this.dynamoTable = dynamoDB.getTable(Constants.DDB_TABLE_NAME);
     }
     
