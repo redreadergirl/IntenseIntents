@@ -11,8 +11,16 @@ public class PantryTrackerStreamHandler extends SkillStreamHandler {
   
     private static Skill getSkill() {
         return Skills.standard()
+<<<<<<< HEAD
+<<<<<<< HEAD
                 .addRequestHandlers(new LaunchRequestHandler())
                 .addRequestHandlers(new AddIntentHandler())
+=======
+                .addRequestHandlers(new LaunchRequestHandler(), new QueryIntentHandler())
+>>>>>>> 50fddbc... Created QueryIntentHandler
+=======
+                .addRequestHandlers(new LaunchRequestHandler(), new QueryIntentHandler(), new AddIntentHandler(), new RemoveIntentHandler(), new OrderIntentHandler())
+>>>>>>> cbde3b9... Wrote most of the OrderIntentHandler, some reorganization
                 .build();
     }
   

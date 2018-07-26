@@ -7,6 +7,11 @@ import com.amazon.ask.model.LaunchRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.request.Predicates;
 import pantrytracker.model.Attributes;
+<<<<<<< HEAD
+import pantrytracker.util.Handlers;
+=======
+import pantrytracker.util.DynamoUtil;
+>>>>>>> f6b5e57... add methods to addIntent
 
 import java.util.Map;
 import java.util.Optional;
@@ -18,12 +23,13 @@ public class AddIntentHandler implements RequestHandler {
 
     @Override
     public boolean canHandle(HandlerInput input) {
-        return input.matches(intentName("AddIntent").and(sessionAttribute(Attributes.STATE_KEY, Attributes.START_STATE)));
+        return input.matches(intentName("AddIntent").and(sessionAttribute(Attributes.STATE_KEY, Attributes.START_STATE).or(Handlers.noState())));
 
     }
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
+        String userId = input.getRequestEnvelope().getSession().getUser().getUserId();
         Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
         IntentRequest intentRequest = (IntentRequest)input.getRequestEnvelope().getRequest();
         int amount = 1;
@@ -31,10 +37,9 @@ public class AddIntentHandler implements RequestHandler {
             amount = Integer.parseInt(intentRequest.getIntent().getSlots().get("amount").getValue());
         }
         String food = intentRequest.getIntent().getSlots().get("food").getValue();
-        //if(item in inventory)
-        //increase by amount
-        //else
-        //add item with quantity amount
+        DynamoUtil du = new DynamoUtil();
+        du.addInventory(userId, food, amount);
+        amount = du.getQuantity(userId, food);
         return input.getResponseBuilder().withSpeech("Done. You now have " + amount + " " + food + " in your pantry.").withShouldEndSession(true).build();
     }
 }
