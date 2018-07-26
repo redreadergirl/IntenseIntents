@@ -7,6 +7,7 @@ package pantrytracker.util
 
 import java.math.BigDecimal;
 
+import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
@@ -25,12 +26,14 @@ public class DynamoUtil {
     private static final String TABLE_NAME = "IntenseIntents";
 =======
 import java.util.HashMap;
+import java.util.Map;
+
 import pantrytracker.model.Constants;
 >>>>>>> 428a3a9... Fixed DDB functionality
 
 public class DynamoUtil {
     private final DynamoDB dynamoDB;
-    private final Table table;
+    private final Table dynamoTable;
 
     public DynamoUtil() {
         // Uncomment for remote connection
@@ -40,11 +43,15 @@ public class DynamoUtil {
         this.dynamoDB = new DynamoDB(AmazonDynamoDBClientBuilder.standard().withEndpointConfiguration
                 (new AwsClientBuilder.EndpointConfiguration("http://localhost:8000", "us-west-2")).build());
         
+<<<<<<< HEAD
         this.table = dynamoDB.getTable(Constants.DDB_TABLE_NAME);
 =======
     public DynamoUtil(final String tableName, final AmazonDynamoDB client) {
         this.dynamoDB = new DynamoDB(client);
 >>>>>>> cbde3b9... Wrote most of the OrderIntentHandler, some reorganization
+=======
+        this.dynamoTable = dynamoDB.getTable(Constants.DDB_TABLE_NAME);
+>>>>>>> be27448... fixed DynamoUtil
     }
     
     // See if an item is in stock
@@ -57,38 +64,43 @@ public class DynamoUtil {
         // Invalid args.
         if (userId.isEmpty() || itemName.isEmpty() || num < 0) return 0;
 
+        int newCount = num;
+
         final GetItemSpec spec = new GetItemSpec().withPrimaryKey(Constants.PARTITION_KEY, userId);
         final Item outcome = dynamoTable.getItem(spec);
 
         // User did not exist
         if (outcome == null) {
             createInventoryRow(userId);
-            HashMap<String, Integer> items = new Map<String, Integer>;
-            items.put(itemName) = num;
+            Map<String, Integer> items = new HashMap<String, Integer>();
+            items.put(itemName, num);
 
-            final Item record = new Item().withPrimaryKey(Constants.PARTITION_KEY, userId).withMap(Constants.INVENTORY_NAME, items);
+            final Item record = new Item().withPrimaryKey(Constants.PARTITION_KEY, userId).withMap(Constants.INVENTORY_MAP, items);
             dynamoTable.putItem(record);
-
         } else {
-            HashMap<String, Integer> items = (HashMap<String, Integer>) outcome.getMap(Constants.INVENTORY_NAME);
+            Map<String, Integer> items = outcome.getMap(Constants.INVENTORY_MAP);
 
             // Check to see if the product is already in the list. If so, add to the value.
+
             if (items.containsKey(itemName)) {
-                items.put(itemName) = items.get(itemName) + num;
+                newCount += items.get(itemName);
+                items.put(itemName, newCount);
             }
             else {
-                items.put(itemName) = num;
+                items.put(itemName, num);
             }
 
-            final Item record = new Item().withPrimaryKey(Constants.PARTITION_KEY, userId).withMap(Constants.INVENTORY_NAME, items);
+            final Item record = new Item().withPrimaryKey(Constants.PARTITION_KEY, userId).withMap(Constants.INVENTORY_MAP, items);
             dynamoTable.putItem(record);
         }
+
+        return newCount;
     }
    
    // Grabs itemName quantity
     public int getQuantity(final String userId, String itemName) {
         // Invalid args
-        if (itemName.isEmpty() || userID.isEmpty()) return 0;
+        if (itemName.isEmpty() || userId.isEmpty()) return 0;
 
     	final GetItemSpec spec = new GetItemSpec().withPrimaryKey(Constants.PARTITION_KEY, userId);
         final Item outcome = dynamoTable.getItem(spec);
@@ -100,7 +112,7 @@ public class DynamoUtil {
             return 0;
         }
         else {
-            HashMap<String, Integer> items = outcome.getMap(Constants.INVENTORY_NAME);
+            Map<String, Integer> items = outcome.getMap(Constants.INVENTORY_MAP);
 
             // Check if user has product
             if (items.containsKey(itemName)) {
@@ -113,8 +125,8 @@ public class DynamoUtil {
     private Boolean createInventoryRow(final String userId) {
         try {
             Map<String, Integer> inventory = new HashMap<String, Integer>();
-            Item item = new Item().withPrimaryKey(Constants.PARTITION_KEY, userId).withMap(Constants.INVENTORY_NAME, inventory);
-            dynamoTable.putItem(record);
+            Item item = new Item().withPrimaryKey(Constants.PARTITION_KEY, userId).withMap(Constants.INVENTORY_MAP, inventory);
+            dynamoTable.putItem(item);
             return true;
         }
         catch (AmazonServiceException ase) {
