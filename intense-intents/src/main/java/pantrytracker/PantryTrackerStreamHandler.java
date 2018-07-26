@@ -12,6 +12,7 @@ public class PantryTrackerStreamHandler extends SkillStreamHandler {
     private static Skill getSkill() {
         return Skills.standard()
                 .addRequestHandlers(new LaunchRequestHandler())
+                .addRequestHandlers(new AddIntentHandler())
                 .build();
     }
   

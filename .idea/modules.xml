@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/IntenseIntents.iml" filepath="$PROJECT_DIR$/IntenseIntents.iml" />
+      <module fileurl="file://$PROJECT_DIR$/intense-intents/intense-intents.iml" filepath="$PROJECT_DIR$/intense-intents/intense-intents.iml" />
     </modules>
   </component>
 </project>
