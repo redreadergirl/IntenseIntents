@@ -83,11 +83,12 @@ public class DynamoUtil {
             // Check to see if the product is already in the list. If so, add to the value.
 
             if (items.containsKey(itemName)) {
-                newCount += ((BigDecimal)items.get(itemName)).intValue();
-                items.put(itemName, (newCount < 0) ? 0 : newCount);
+                newCount += (items.get(itemName)).intValue();
+                items.put(itemName, (newCount < 0) ? (new BigDecimal(0)) : (new BigDecimal(newCount)));
             }
             else {
-                items.put(itemName, (num < 0) ? 0 : num);
+                items.put(itemName, items.put(itemName,
+                        (newCount < 0) ? (new BigDecimal(0)) : (new BigDecimal(newCount))));
             }
 
             final Item record = new Item().withPrimaryKey(Constants.PARTITION_KEY, userId).withMap(Constants.INVENTORY_MAP, items);
