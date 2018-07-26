@@ -60,9 +60,9 @@ public class DynamoUtil {
     }
 
     // Should return the new ingredient count
-    public int addInventory(final String userId, final String itemName, final int num) {
+    public int changeInventory(final String userId, final String itemName, final int num) {
         // Invalid args.
-        if (userId.isEmpty() || itemName.isEmpty() || num < 0) return 0;
+        if (userId.isEmpty() || itemName.isEmpty()) return 0;
 
         int newCount = num;
 
@@ -73,7 +73,7 @@ public class DynamoUtil {
         if (outcome == null) {
             createInventoryRow(userId);
             Map<String, Integer> items = new HashMap<String, Integer>();
-            items.put(itemName, num);
+            items.put(itemName, (num < 0) ? 0 : num);
 
             final Item record = new Item().withPrimaryKey(Constants.PARTITION_KEY, userId).withMap(Constants.INVENTORY_MAP, items);
             dynamoTable.putItem(record);
@@ -84,17 +84,17 @@ public class DynamoUtil {
 
             if (items.containsKey(itemName)) {
                 newCount += items.get(itemName);
-                items.put(itemName, newCount);
+                items.put(itemName, (newCount < 0) ? 0 : newCount);
             }
             else {
-                items.put(itemName, num);
+                items.put(itemName, (num < 0) ? 0 : num);
             }
 
             final Item record = new Item().withPrimaryKey(Constants.PARTITION_KEY, userId).withMap(Constants.INVENTORY_MAP, items);
             dynamoTable.putItem(record);
         }
 
-        return newCount;
+        return (newCount < 0) ? 0 : newCount;
     }
    
    // Grabs itemName quantity
