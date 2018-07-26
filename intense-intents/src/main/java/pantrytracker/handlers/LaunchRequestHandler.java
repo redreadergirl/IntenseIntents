@@ -11,7 +11,6 @@ import pantrytracker.model.Constants;
 import java.util.Optional;
  
 /**
- * @author mvvadari
  * Called when the user launches the skill
  */
 public class LaunchRequestHandler implements RequestHandler {
