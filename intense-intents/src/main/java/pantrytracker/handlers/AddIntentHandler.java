@@ -45,9 +45,9 @@ public class AddIntentHandler implements RequestHandler {
         System.out.println("Created DynamoUtil");
         du.changeInventory(userId, food, amount);
         System.out.println("Inventory changed");
-        amount = du.getQuantity(userId, food);
+        int newAmount = du.getQuantity(userId, food);
         
-        String speech = "Done. You now have " + amount + " " + food + " in your pantry. ";
+        String speech = "Done. You now have " + newAmount + " " + food + " in your pantry. ";
         
         return AlexaOutput.createDefault(speech).getOutput(input);
     }
