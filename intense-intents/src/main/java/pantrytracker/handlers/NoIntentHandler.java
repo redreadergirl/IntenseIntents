@@ -22,13 +22,7 @@ public class NoIntentHandler implements RequestHandler {
 
 	@Override
 	public Optional<Response> handle(HandlerInput input) {
-		Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
-		if(sessionAttributes.get(Attributes.STATE_KEY) == Attributes.ORDER_MORE_STATE) {
-			sessionAttributes.put(Attributes.STATE_KEY, Attributes.SHOPPING_LIST_STATE);
-			return input.getResponseBuilder().withSpeech("Would you like to add it to your shopping list?").withShouldEndSession(false).build();
-		} else {
-			return Handlers.handleQuit(input);
-		}
+		return Handlers.handleQuit(input);
 	}
 
 }

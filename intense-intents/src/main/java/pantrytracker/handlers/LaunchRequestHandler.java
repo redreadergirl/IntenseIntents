@@ -28,7 +28,11 @@ public class LaunchRequestHandler implements RequestHandler {
     	 Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
     	 sessionAttributes.put(Attributes.STATE_KEY, Attributes.START_STATE);
     	 
+<<<<<<< HEAD
     	 return AlexaOutput.createDefault(Constants.START_MESSAGE).getOutput(input);
+=======
+    	 return input.getResponseBuilder().withSpeech(Constants.START_MESSAGE).withShouldEndSession(false).build();
+>>>>>>> 8a79f10... remove shopping list, hopefully fix closing issue
      }
  
 }
