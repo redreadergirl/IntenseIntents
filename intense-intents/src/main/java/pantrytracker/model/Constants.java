@@ -5,8 +5,13 @@ public class Constants {
 	
 	public static final String CARD_SKILL_NAME = "Pantry Tracker";
 	
+<<<<<<< HEAD
 	public static final String START_MESSAGE = "BLEH";
 <<<<<<< HEAD
+=======
+	public static final String START_MESSAGE = "Welcome to What's In My Pantry. You can add or remove items from your inventory by saying remove one can of potatoes.";
+
+>>>>>>> c56c8d4... remove dependency
 	public static final String EXIT_MESSAGE = "Thank you for using " + CARD_SKILL_NAME + ". Goodbye. ";
 <<<<<<< HEAD
 <<<<<<< HEAD
