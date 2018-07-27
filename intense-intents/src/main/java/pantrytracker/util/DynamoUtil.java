@@ -77,8 +77,7 @@ public class DynamoUtil {
                 items.put(itemName, (newCount < 0) ? (new BigDecimal(0)) : (new BigDecimal(newCount)));
             }
             else {
-                items.put(itemName, items.put(itemName,
-                        (newCount < 0) ? (new BigDecimal(0)) : (new BigDecimal(newCount))));
+                items.put(itemName, (newCount < 0) ? (new BigDecimal(0)) : (new BigDecimal(newCount)));
             }
 
             final Item record = new Item().withPrimaryKey(Constants.PARTITION_KEY, userId).withMap(Constants.INVENTORY_MAP, items);
@@ -108,7 +107,8 @@ public class DynamoUtil {
 
             // Check if user has product
             if (items != null || items.containsKey(itemName)) {
-                return ((BigDecimal) items.get(itemName)).intValue();
+                BigDecimal c = items.get(itemName);
+                return (c == null) ? 0 : c.intValue();
             }
             else return 0;
         }
