@@ -14,6 +14,7 @@ public class PantryTrackerStreamHandler extends SkillStreamHandler {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 .addRequestHandlers(new LaunchRequestHandler())
                 .addRequestHandlers(new AddIntentHandler())
 =======
@@ -26,6 +27,11 @@ public class PantryTrackerStreamHandler extends SkillStreamHandler {
                 .addRequestHandlers(new LaunchRequestHandler(), new QueryIntentHandler(), new AddIntentHandler(), new RemoveIntentHandler(), new OrderIntentHandler(), 
                 					new YesIntentHandler(), new NoIntentHandler())
 >>>>>>> 79d8b4b... Wrote yes and no handlers
+=======
+                .addRequestHandlers(new LaunchRequestHandler(), new QueryIntentHandler(), new AddIntentHandler(), new RemoveIntentHandler(), 
+                					new YesIntentHandler(), new NoIntentHandler(), 
+                					new CancelandStopIntentHandler(), new FallbackIntentHandler(), new HelpIntentHandler(), new DefaultIntentHandler())
+>>>>>>> 277a045... Stopped ending sessions in intent returns
                 .build();
     }
   

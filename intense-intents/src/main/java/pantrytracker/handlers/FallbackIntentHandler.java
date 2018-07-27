@@ -4,6 +4,9 @@ import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.Response;
 
+import pantrytracker.model.AlexaOutput;
+import pantrytracker.model.Constants;
+
 import java.util.Optional;
 
 import static com.amazon.ask.request.Predicates.intentName;
@@ -20,12 +23,7 @@ public class FallbackIntentHandler implements RequestHandler {
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
-        String speechText = "Sorry, I don't know that. You can say try saying help!";
-        return input.getResponseBuilder()
-                .withSpeech(speechText)
-                .withSimpleCard("IntenseIntents", speechText)
-                .withReprompt(speechText)
-                .build();
+        return AlexaOutput.createDefault(Constants.IDK_MESSAGE).getOutput(input);
     }
 
 }

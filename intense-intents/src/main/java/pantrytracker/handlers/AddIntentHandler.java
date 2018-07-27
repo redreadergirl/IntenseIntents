@@ -6,6 +6,8 @@ import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.LaunchRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.request.Predicates;
+
+import pantrytracker.model.AlexaOutput;
 import pantrytracker.model.Attributes;
 <<<<<<< HEAD
 import pantrytracker.util.Handlers;
@@ -44,6 +46,9 @@ public class AddIntentHandler implements RequestHandler {
         du.changeInventory(userId, food, amount);
         System.out.println("Inventory changed");
         amount = du.getQuantity(userId, food);
-        return input.getResponseBuilder().withSpeech("Done. You now have " + amount + " " + food + " in your pantry.").withShouldEndSession(true).build();
+        
+        String speech = "Done. You now have " + amount + " " + food + " in your pantry. ";
+        
+        return AlexaOutput.createDefault(speech).getOutput(input);
     }
 }
