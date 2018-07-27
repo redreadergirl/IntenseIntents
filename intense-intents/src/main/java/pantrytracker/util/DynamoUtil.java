@@ -46,8 +46,10 @@ public class DynamoUtil {
 
     // Should return the new ingredient count
     public int changeInventory(final String userId, final String itemName, final int num) {
+        System.out.format("%nUSER: %s, ITEM: %s, NUM: %s%n", userId, itemName, num);
+
         // Invalid args.
-        if (userId.isEmpty() || itemName.isEmpty()) return 0;
+        if (userId == null || itemName == null) return 0;
 
         int newCount = num;
 
@@ -65,10 +67,13 @@ public class DynamoUtil {
         } else {
             Map<String, BigDecimal> items = outcome.getMap(Constants.INVENTORY_MAP);
 
+            if (items == null) return 0;
+
             // Check to see if the product is already in the list. If so, add to the value.
 
             if (items.containsKey(itemName)) {
-                newCount += (items.get(itemName)).intValue();
+                BigDecimal c = items.get(itemName);
+                newCount += (c == null) ? 0 : c.intValue();
                 items.put(itemName, (newCount < 0) ? (new BigDecimal(0)) : (new BigDecimal(newCount)));
             }
             else {
@@ -85,8 +90,9 @@ public class DynamoUtil {
    
    // Grabs itemName quantity
     public int getQuantity(final String userId, String itemName) {
+        System.out.format("%nUSER: %s, ITEM: %s%n", userId, itemName);
         // Invalid args
-        if (itemName.isEmpty() || userId.isEmpty()) return 0;
+        if (itemName == null || userId == null) return 0;
 
     	final GetItemSpec spec = new GetItemSpec().withPrimaryKey(Constants.PARTITION_KEY, userId);
         final Item outcome = dynamoTable.getItem(spec);
@@ -101,7 +107,7 @@ public class DynamoUtil {
             Map<String, BigDecimal> items = outcome.getMap(Constants.INVENTORY_MAP);
 
             // Check if user has product
-            if (items.containsKey(itemName)) {
+            if (items != null || items.containsKey(itemName)) {
                 return ((BigDecimal) items.get(itemName)).intValue();
             }
             else return 0;
